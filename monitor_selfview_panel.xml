@@ -1,0 +1,155 @@
+<!--
+  Panel: Monitor Roles / Selfview / Selfview Fullscreen
+  Version: 1.4.0
+  Description: In-Room Control panel for directly setting HDMI output monitor
+               roles (via GroupButton, since Button widgets can't display an
+               arbitrary value), toggling Selfview and choosing its target
+               monitor, and toggling Selfview fullscreen mode.
+  Date: 2026-07-02
+  Changelog: see CHANGELOG.md
+
+  Import: Device web UI -> Control Panel / User Interface Extensions Editor ->
+  Import your own panel XML from this file, then click Save & Activate.
+-->
+<Extensions>
+  <Version>1.11</Version>
+  <Panel>
+    <Order>1</Order>
+    <PanelId>panel_monitor_selfview</PanelId>
+    <Origin>local</Origin>
+    <Location>HomeScreenAndCallControls</Location>
+    <Icon>Sliders</Icon>
+    <Color>#1E90FF</Color>
+    <Name>Display Controls</Name>
+    <ActivityType>Custom</ActivityType>
+    <Page>
+      <Name>Display Controls</Name>
+
+      <Row>
+        <Name>HDMI 1 Role</Name>
+        <Widget>
+          <WidgetId>widget_hdmi1_role</WidgetId>
+          <Name>HDMI 1</Name>
+          <Type>GroupButton</Type>
+          <Options>size=4</Options>
+          <ValueSpace>
+            <Value>
+              <Key>First</Key>
+              <Name>1st</Name>
+            </Value>
+            <Value>
+              <Key>Second</Key>
+              <Name>2nd</Name>
+            </Value>
+            <Value>
+              <Key>Third</Key>
+              <Name>3rd</Name>
+            </Value>
+            <Value>
+              <Key>PresentationOnly</Key>
+              <Name>Presentation</Name>
+            </Value>
+          </ValueSpace>
+        </Widget>
+      </Row>
+
+      <Row>
+        <Name>HDMI 2 Role</Name>
+        <Widget>
+          <WidgetId>widget_hdmi2_role</WidgetId>
+          <Name>HDMI 2</Name>
+          <Type>GroupButton</Type>
+          <Options>size=4</Options>
+          <ValueSpace>
+            <Value>
+              <Key>First</Key>
+              <Name>1st</Name>
+            </Value>
+            <Value>
+              <Key>Second</Key>
+              <Name>2nd</Name>
+            </Value>
+            <Value>
+              <Key>Third</Key>
+              <Name>3rd</Name>
+            </Value>
+            <Value>
+              <Key>PresentationOnly</Key>
+              <Name>Presentation</Name>
+            </Value>
+          </ValueSpace>
+        </Widget>
+      </Row>
+
+      <Row>
+        <Name>HDMI 3 Role</Name>
+        <Widget>
+          <WidgetId>widget_hdmi3_role</WidgetId>
+          <Name>HDMI 3</Name>
+          <Type>GroupButton</Type>
+          <Options>size=4</Options>
+          <ValueSpace>
+            <Value>
+              <Key>First</Key>
+              <Name>1st</Name>
+            </Value>
+            <Value>
+              <Key>Second</Key>
+              <Name>2nd</Name>
+            </Value>
+            <Value>
+              <Key>Third</Key>
+              <Name>3rd</Name>
+            </Value>
+            <Value>
+              <Key>PresentationOnly</Key>
+              <Name>Presentation</Name>
+            </Value>
+          </ValueSpace>
+        </Widget>
+      </Row>
+
+      <Row>
+        <Name>Selfview Control</Name>
+        <Widget>
+          <WidgetId>widget_sv_toggle</WidgetId>
+          <Name>Selfview</Name>
+          <Type>ToggleButton</Type>
+          <Options>size=2</Options>
+        </Widget>
+        <Widget>
+          <WidgetId>widget_sv_monitor_group</WidgetId>
+          <Name>Selfview Monitor</Name>
+          <Type>GroupButton</Type>
+          <Options>size=4</Options>
+          <ValueSpace>
+            <Value>
+              <Key>1</Key>
+              <Name>Mon 1</Name>
+            </Value>
+            <Value>
+              <Key>2</Key>
+              <Name>Mon 2</Name>
+            </Value>
+            <Value>
+              <Key>3</Key>
+              <Name>Mon 3</Name>
+            </Value>
+          </ValueSpace>
+        </Widget>
+      </Row>
+
+      <Row>
+        <Name>Selfview Fullscreen</Name>
+        <Widget>
+          <WidgetId>widget_fs_toggle</WidgetId>
+          <Name>Selfview Fullscreen</Name>
+          <Type>ToggleButton</Type>
+          <Options>size=2</Options>
+        </Widget>
+      </Row>
+
+      <Options>hideRowNames=0</Options>
+    </Page>
+  </Panel>
+</Extensions>
