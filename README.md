@@ -4,7 +4,7 @@ Cisco RoomOS In-Room Control panel + macro for setting HDMI output monitor roles
 
 ## What it does
 
-- **Monitor Roles** — one row per HDMI output (HDMI 1/2/3). Tapping a role in each `GroupButton` sets that output's `MonitorRole` (`First` / `Second` / `Third` / `PresentationOnly`) via `xConfiguration Video Output Connector [n] MonitorRole`. Each change also recomputes and applies the device-wide `xConfiguration Video Monitors` layout (`Single`/`Dual`/`DualPresentationOnly`/`Triple`/`TriplePresentationOnly`) based on the combined roles across all three connectors.
+- **Monitor Roles** — one row per HDMI output (HDMI 1/2/3). Tapping a role in each `GroupButton` sets that output's `MonitorRole` (`First` / `Second` / `Third` / `PresentationOnly`) via `xConfiguration Video Output Connector [n] MonitorRole`. Each change also recomputes and applies the device-wide `xConfiguration Video Monitors` layout (`Single`/`Dual`/`DualPresentationOnly`/`Triple`/`TriplePresentationOnly`), based on the number of **distinct** main roles in use across all three connectors (mirroring the same role to multiple outputs still counts as one).
 - **Selfview Control** — toggle Selfview on/off, and pick which monitor (1/2/3) it displays on.
 - **Selfview Fullscreen** — toggle whether Selfview shows as a small picture-in-picture window or takes over the full screen.
 

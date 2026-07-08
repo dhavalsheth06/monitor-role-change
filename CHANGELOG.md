@@ -2,6 +2,9 @@
 
 All notable changes to the Monitor Role Change macro/panel are documented here.
 
+## 1.12.0 — 2026-07-02
+`syncVideoMonitorsConfig()` now counts **distinct** main roles (First/Second/Third) instead of raw connector count. Per user correction: if all three HDMI outputs are set to the same role (e.g. all "First", mirroring one feed to 3 screens), that's still `Single` — not `Triple` — since only one distinct role is in use. Same for all three set to "Second", or any other single repeated role.
+
 ## 1.11.0 — 2026-07-02
 Setting an HDMI output's monitor role (First/Second/Third/PresentationOnly) now also updates the device-wide `xConfiguration Video Monitors` layout. Added `syncVideoMonitorsConfig()`, which reads all three connectors' current roles and derives the appropriate value: 1/2/3 "main" roles map to `Single`/`Dual`/`Triple`, and a `PresentationOnly` connector shifts that to `DualPresentationOnly`/`TriplePresentationOnly`. Runs automatically after each role change from the panel, and logs the computed value.
 

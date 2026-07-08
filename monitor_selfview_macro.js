@@ -2,7 +2,7 @@ import xapi from 'xapi';
 
 /*
  * Macro: Monitor Roles / Selfview Control
- * Version: 1.11.0
+ * Version: 1.12.0
  * Description: Drives the "panel_monitor_selfview" In-Room Control panel
  *              (see monitor_selfview_panel.xml). Sets HDMI output monitor
  *              roles directly (GroupButton per output), toggles Selfview
@@ -85,12 +85,18 @@ async function refreshAllOutputButtons() {
 // the combination of per-connector MonitorRole assignments, and applies it.
 // "Mains" (First/Second/Third) are monitors carrying the full call layout;
 // PresentationOnly is a monitor dedicated to presentation content only.
-// Mapping: 1 main -> Single, 2 mains -> Dual, 3 mains -> Triple; adding a
+// Mapping: 1 distinct main role -> Single, 2 -> Dual, 3 -> Triple; adding a
 // PresentationOnly monitor bumps Dual->DualPresentationOnly and
 // Triple->TriplePresentationOnly (one main slot is "used up" by it).
+//
+// Counts DISTINCT main roles, not connector count — e.g. all three HDMI
+// outputs set to "First" is mirroring the same feed to 3 screens, which is
+// still Single (one distinct role in use), the same as if only HDMI 1 were
+// assigned First. Setting all three to "Second" instead is likewise still
+// Single, just mirroring a different role.
 async function syncVideoMonitorsConfig() {
   const roles = await Promise.all(Object.values(OUTPUT_WIDGETS).map((connector) => getOutputRole(connector)));
-  const mains = roles.filter((role) => role === 'First' || role === 'Second' || role === 'Third').length;
+  const mains = new Set(roles.filter((role) => role === 'First' || role === 'Second' || role === 'Third')).size;
   const hasPresentationOnly = roles.includes('PresentationOnly');
 
   let videoMonitors;
