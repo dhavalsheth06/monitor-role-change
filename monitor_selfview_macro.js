@@ -2,7 +2,7 @@ import xapi from 'xapi';
 
 /*
  * Macro: Monitor Roles / Selfview Control
- * Version: 1.10.0
+ * Version: 1.11.0
  * Description: Drives the "panel_monitor_selfview" In-Room Control panel
  *              (see monitor_selfview_panel.xml). Sets HDMI output monitor
  *              roles directly (GroupButton per output), toggles Selfview
@@ -81,6 +81,37 @@ async function refreshAllOutputButtons() {
   );
 }
 
+// Derives the device-wide xConfiguration Video Monitors layout value from
+// the combination of per-connector MonitorRole assignments, and applies it.
+// "Mains" (First/Second/Third) are monitors carrying the full call layout;
+// PresentationOnly is a monitor dedicated to presentation content only.
+// Mapping: 1 main -> Single, 2 mains -> Dual, 3 mains -> Triple; adding a
+// PresentationOnly monitor bumps Dual->DualPresentationOnly and
+// Triple->TriplePresentationOnly (one main slot is "used up" by it).
+async function syncVideoMonitorsConfig() {
+  const roles = await Promise.all(Object.values(OUTPUT_WIDGETS).map((connector) => getOutputRole(connector)));
+  const mains = roles.filter((role) => role === 'First' || role === 'Second' || role === 'Third').length;
+  const hasPresentationOnly = roles.includes('PresentationOnly');
+
+  let videoMonitors;
+  if (hasPresentationOnly) {
+    videoMonitors = mains >= 2 ? 'TriplePresentationOnly' : 'DualPresentationOnly';
+  } else if (mains >= 3) {
+    videoMonitors = 'Triple';
+  } else if (mains === 2) {
+    videoMonitors = 'Dual';
+  } else {
+    videoMonitors = 'Single';
+  }
+
+  try {
+    await xapi.Config.Video.Monitors.set(videoMonitors);
+    console.log(`Video Monitors set to ${videoMonitors} (mains=${mains}, presentationOnly=${hasPresentationOnly})`);
+  } catch (e) {
+    console.log(`Video Monitors command failed: ${JSON.stringify(e)}`);
+  }
+}
+
 // ---- Selfview helpers ----
 
 // Reads current Selfview state so applySelfview() can always send all four
@@ -153,6 +184,7 @@ xapi.Event.UserInterface.Extensions.Widget.Action.on(async (event) => {
       await setOutputRole(connector, event.Value);
       const confirmed = await getOutputRole(connector);
       console.log(`HDMI ${connector} MonitorRole requested=${event.Value} confirmed=${confirmed}`);
+      await syncVideoMonitorsConfig();
     } catch (e) {
       console.log(`HDMI ${connector} MonitorRole command failed: ${JSON.stringify(e)}`);
     }

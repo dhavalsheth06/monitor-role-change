@@ -2,6 +2,9 @@
 
 All notable changes to the Monitor Role Change macro/panel are documented here.
 
+## 1.11.0 — 2026-07-02
+Setting an HDMI output's monitor role (First/Second/Third/PresentationOnly) now also updates the device-wide `xConfiguration Video Monitors` layout. Added `syncVideoMonitorsConfig()`, which reads all three connectors' current roles and derives the appropriate value: 1/2/3 "main" roles map to `Single`/`Dual`/`Triple`, and a `PresentationOnly` connector shifts that to `DualPresentationOnly`/`TriplePresentationOnly`. Runs automatically after each role change from the panel, and logs the computed value.
+
 ## 1.10.0 — 2026-07-02
 HDMI monitor-role `GroupButton` handler now logs the requested vs. confirmed `MonitorRole` value (reading it back via `getOutputRole` after `setOutputRole`), and catches/logs any error — matching the same confirm-and-log pattern already used for Selfview Fullscreen.
 
