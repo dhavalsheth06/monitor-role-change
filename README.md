@@ -44,4 +44,5 @@ These are non-obvious RoomOS behaviors this project ran into — see `CHANGELOG.
 ## Known limitations
 
 - Assumes up to 3 HDMI outputs. On a device with fewer, the extra `GroupButton`(s) simply won't reflect a role (no error).
+- **Devices with only 2 physical HDMI outputs:** keep HDMI 1 and HDMI 3's role assignments in sync with each other (i.e. set them to the same role), since the macro addresses connectors 1/2/3 independently and doesn't know which physical connector numbers actually exist on a given device.
 - No control for `PIPPosition` in the panel; the macro preserves whatever the device's current PIP position is on every Selfview command.
