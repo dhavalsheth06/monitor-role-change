@@ -2,6 +2,9 @@
 
 All notable changes to the Monitor Role Change macro/panel are documented here.
 
+## 1.10.0 — 2026-07-02
+HDMI monitor-role `GroupButton` handler now logs the requested vs. confirmed `MonitorRole` value (reading it back via `getOutputRole` after `setOutputRole`), and catches/logs any error — matching the same confirm-and-log pattern already used for Selfview Fullscreen.
+
 ## 1.9.0 — 2026-07-02
 Selfview Fullscreen applied correctly on-device but the toggle widget's displayed state didn't update. Fixed by:
 - Calling `refreshSelfviewWidgets()` immediately after each `applySelfview()` call, instead of relying solely on the status subscription.

@@ -2,7 +2,7 @@ import xapi from 'xapi';
 
 /*
  * Macro: Monitor Roles / Selfview Control
- * Version: 1.9.0
+ * Version: 1.10.0
  * Description: Drives the "panel_monitor_selfview" In-Room Control panel
  *              (see monitor_selfview_panel.xml). Sets HDMI output monitor
  *              roles directly (GroupButton per output), toggles Selfview
@@ -145,10 +145,17 @@ xapi.Event.UserInterface.Extensions.Widget.Action.on(async (event) => {
   // ToggleButton tap before this line was added.
   if (!['released', 'clicked', 'changed'].includes(event.Type)) return;
 
-  // Monitor role GroupButton: event.Value is the selected key (First/Second/Third/PresentationOnly)
+  // Monitor role GroupButton: event.Value is the selected key (First/Second/Third/PresentationOnly).
+  // Logged so failures are visible in the macro console instead of failing silently.
   if (OUTPUT_WIDGETS[event.WidgetId] !== undefined) {
     const connector = OUTPUT_WIDGETS[event.WidgetId];
-    await setOutputRole(connector, event.Value);
+    try {
+      await setOutputRole(connector, event.Value);
+      const confirmed = await getOutputRole(connector);
+      console.log(`HDMI ${connector} MonitorRole requested=${event.Value} confirmed=${confirmed}`);
+    } catch (e) {
+      console.log(`HDMI ${connector} MonitorRole command failed: ${JSON.stringify(e)}`);
+    }
     return; // xConfiguration.on listener below refreshes the widget
   }
 
